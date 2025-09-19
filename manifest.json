@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "NoteCraft",
+    "version": "0.1.0",
+    "action": { "default_popup": "popup.html" },
+    "options_ui": { "page": "app.html", "open_in_tab": true },
+    "permissions": ["storage", "contextMenus"],
+    "background": {
+        "service_worker": "background.js",
+        "type": "module",
+        "scripts": ["background-firefox.js"]
+    }
+}
