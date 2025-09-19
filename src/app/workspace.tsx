@@ -4,6 +4,9 @@ import type { JSONContent } from '@tiptap/core';
 import { db } from '@/db/db';
 import { NoteEditor } from '@/editor/note-editor';
 import { TreePane } from '@/app/tree-pane';
+import { QuickSearch } from '@/app/quick-search';
+import { BackupButtons } from '@/app/backup-buttons';
+import { registerRuntimeHandlers } from '@/app/runtime-listeners';
 
 const LAST_PAGE_KEY = 'notecraft:lastPageId';
 
@@ -15,7 +18,13 @@ export function Workspace() {
     );
     const [isSaving, setIsSaving] = useState(false);
 
-    // Bootstrap: create first page if none, else restore last opened (or most-recently updated)
+    // Register background->app runtime listeners (e.g., context-menu clipper)
+    useEffect(() => {
+        const off = registerRuntimeHandlers();
+        return () => off();
+    }, []);
+
+    // Bootstrap: create first page if none; otherwise restore last opened or most-recently updated
     useEffect(() => {
         (async () => {
             const count = await db.pages.count();
@@ -51,7 +60,7 @@ export function Workspace() {
         })();
     }, []);
 
-    // Load page title + content whenever selection changes
+    // Load page title + content on selection change and persist last selection
     useEffect(() => {
         if (!currentPageId) return;
         (async () => {
@@ -67,13 +76,14 @@ export function Workspace() {
         })();
     }, [currentPageId]);
 
-    // These are used by the editor for the “Saving…/Saved” indicator
+    // Save-state callbacks used by the editor
     const onBeforeSave = useMemo(() => () => setIsSaving(true), []);
     const onAfterSave = useMemo(() => () => setIsSaving(false), []);
 
     return (
         <div className="flex h-screen">
             <TreePane onSelectPage={setCurrentPageId} />
+
             <div className="flex-1 flex flex-col">
                 <div className="flex items-center gap-3 p-2 border-b">
                     <input
@@ -89,7 +99,14 @@ export function Workspace() {
                         }
                         placeholder="Untitled"
                     />
-                    <span className="text-xs text-muted-foreground">
+
+                    {/* Quick Search */}
+                    <QuickSearch onSelect={(id) => setCurrentPageId(id)} />
+
+                    {/* Export / Import */}
+                    <BackupButtons />
+
+                    <span className="ml-auto text-xs text-muted-foreground">
                         {isSaving ? 'Saving…' : 'Saved'}
                     </span>
                 </div>

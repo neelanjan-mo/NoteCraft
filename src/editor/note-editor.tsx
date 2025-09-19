@@ -11,8 +11,8 @@ import { debounce } from '@/lib/debounce';
 type NoteEditorProps = {
     pageId: string;
     initialJSON?: JSONContent;
-    onBeforeSave?: () => void; // <-- new
-    onAfterSave?: () => void; // <-- new
+    onBeforeSave?: () => void;
+    onAfterSave?: () => void;
 };
 
 export function NoteEditor({
