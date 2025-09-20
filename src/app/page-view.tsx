@@ -48,12 +48,14 @@ export function PageView({
                 </span>
             </div>
 
-            <NoteEditor
-                pageId={pageId}
-                initialJSON={initialJSON}
-                onBeforeSave={onBeforeSave}
-                onAfterSave={onAfterSave}
-            />
+            <div className="tiptap border rounded-md">
+                <NoteEditor
+                    pageId={pageId}
+                    initialJSON={initialJSON}
+                    onBeforeSave={onBeforeSave}
+                    onAfterSave={onAfterSave}
+                />
+            </div>
         </div>
     );
 }

@@ -40,3 +40,29 @@
 .read-the-docs {
     color: #888;
 }
+
+.ProseMirror {
+    min-height: 200px;
+}
+.ProseMirror:focus {
+    outline: none;
+}
+
+.tiptap .ProseMirror {
+    outline: none;
+    min-height: 300px; /* visible editing area */
+    padding: 0.5rem;
+}
+.tiptap .ProseMirror p {
+    margin: 0.5rem 0;
+}
+.tiptap .ProseMirror ul,
+.tiptap .ProseMirror ol {
+    padding-left: 1.25rem;
+}
+.tiptap .ProseMirror ul {
+    list-style: disc;
+}
+.tiptap .ProseMirror ol {
+    list-style: decimal;
+}

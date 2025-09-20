@@ -88,32 +88,9 @@ export function PopupWorkspace() {
             </div>
 
             <BottomBar
-                onNewFolder={async () => {
-                    const id = crypto.randomUUID();
-                    const now = Date.now();
-                    await db.folders.add({
-                        id,
-                        parentId: null,
-                        name: 'New folder',
-                        createdAt: now,
-                        updatedAt: now,
-                        sort: now,
-                    });
-                    openFolder(id);
-                }}
-                onNewPage={async () => {
-                    const id = crypto.randomUUID();
-                    const now = Date.now();
-                    await db.pages.add({
-                        id,
-                        folderId: null,
-                        title: 'Untitled',
-                        createdAt: now,
-                        updatedAt: now,
-                    });
-                    openPage(id);
-                }}
-            />
+                onNavigateFolder={(id) => openFolder(id)}
+                onNavigatePage={(id) => openPage(id)}
+            />  
         </div>
     );
 }
